@@ -13,19 +13,20 @@ A Vim9Script plugin that seamlessly integrates with the V language's cryptograph
 To install `vchecksum.vim`, use your preferred plugin manager. For example, if you are using [vim-plug](https://github.com/junegunn/vim-plug), add the following line to your `.vimrc`:
 
 ```vim
-Plug 'yourusername/vchecksum.vim'
+Plug 'sevehub/vchecksum.vim'
 ```
 Then, run the following command in Vim:
 
-:PlugInstall
+    :PlugInstall
 
 ### Usage
 To calculate the checksum of the current file, use the command:
 
-:Checksum
+    :Checksum
 
 To save the checksum to a file, use the command:
-:ChecksumSaveToFile
+
+    :ChecksumSaveToFile
 
 
 ## Configuration
