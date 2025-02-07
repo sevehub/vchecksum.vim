@@ -1,6 +1,6 @@
 # vchecksum.vim
 
-A Vim9Script plugin that integrates the V language crypto library, allowing users to calculate checksums of files or selected text directly within Vim. Supports multiple algorithms.
+A Vim9Script plugin that seamlessly integrates with the V language's cryptographic library, enabling users to calculate file checksums and save them in a format compatible with GNU Coreutils (hash followed by the corresponding file path).
 
 
 ## Requirements
