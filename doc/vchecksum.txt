@@ -1,0 +1,54 @@
+*vchecksum.txt*   Vim9script plugin to cryptographically checksum files
+
+==============================================================================
+CONTENTS                                                     *VChecksum-contents*
+
+    1. Usage ........................... |VChecksumUsage|
+    2. Configuration ................... |VChecksumConfig|
+    3. Bugs ............................ |VChecksumBugs|
+    4. Contributing .................... |VChecksumContributing|
+    5. Changelog ....................... |VChecksumChangelog|
+
+==============================================================================
+USAGE                                                            *VChecksumUsage*
+
+    :Checksum
+
+After pressing <Enter>, a checksum (sha256 by default) will be generated for the
+current file. It can also be invoked in visual mode to checksum a selection.
+
+==============================================================================
+CONFIGURATION                                                   *VChecksumConfig*
+
+These options should be set in the .vimrc file.
+
+
+g:vchecksum_algorithm                                  *VChecksumConfig-algorithm*
+    Default sha256
+
+    Acceptable Values: "sha256", "sha1", "md5". >
+        let g:checksum_algorithm = 'all'
+
+Mapping can be assigned directly to the <Plug> action >
+        map <Leader>c <Plug>Checksum
+<
+
+
+==============================================================================
+Credits                                              *VChecksumCredits*
+
+While this plugin has been created from scratch, we would like to thank 
+Javier Lopez (https://github.com/javier-lopez/checksum.vim) 
+for its implementation of the checksum plugin, and the 
+documentation file that we have partially reused here. 
+Your work has been invaluable in helping us develop this plugin.
+
+
+==============================================================================
+CHANGELOG                                                    *VChecksumChangelog*
+
+v0.0.1
+    * Initial release.
+
+==============================================================================
+" vim: ft=help

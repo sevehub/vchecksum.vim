@@ -1,45 +1,51 @@
 vim9script
+import autoload "../autoload/vchecksum.vim"
+if v:version < 900
+    finish
+endif
 
-g:vchecksum_algorithm = 'md5'  # Default algorithm
+var vchecksum_algorithm = 'sha256'
+var plugindir =  expand('<sfile>:p:h')
+var srcdir = fnamemodify(plugindir, ':h') .. '/src'
+var vchecksum_exe = 'vchecksum.exe'
+var vchecksum_filename = 'checksum.txt '
+
+if !executable('vchecksum.exe')
+    if executable('v.exe')
+        var error = ''
+        error = system('v.exe ' .. srcdir .. '/vchecksum.v' )
+        if v:shell_error
+            echom error
+        else
+            vchecksum_exe = srcdir .. '/vchecksum.exe'
+        endif 
+    else
+        echom 'Unable to compile vchecksum'
+        finish
+    endif
+endif
+
+if exists('g:vchecksum_algorithm')
+    vchecksum_algorithm = g:vchecksum_algorithm
+endif
+
+if exists('g:vchecksum_filename')
+    vchecksum_filename = g:vchecksum_filename
+endif
 
 def Checksum()
-    echom Eol()
-    var current_file = expand('%:p')
-    var algorithm = g:vchecksum_algorithm
-    var command = 'vchecksum.exe -a ' .. algorithm .. ' ' .. current_file
-
-    # If in visual mode, get the selected text
-    if mode() ==# 'v'
-        var selection = getreg('"')
-    #    l:command = 'vchecksum.exe -a ' . l:algorithm . ' - ' . l:selection
-    endif
-
-    # Run the command and capture the output
-    var output = system(command)
-
-    # Check for errors
-    if v:shell_error != 0
-        cgetexpr output
-        cgetexpr 'Error: ' .. v:shell_error .. ', ' .. output
-        return
-    endif
-
+    var checksum = ''
+    checksum = vchecksum.GetChecksum(vchecksum_exe, vchecksum_algorithm)
     # Populate the quickfix list with the output
-    cgetexpr split(output, '\n')
+    cgetexpr split(checksum, '\n')
     copen
 enddef
 
-def Eol(): string
-	#return line-ending string
-	if &fileformat == 'unix'
-		return "\n"
-	elseif &fileformat == 'dos'
-		return "\r\n"
-	elseif &fileformat == 'mac'
-		return "\r"
-    else
-        return &fileformat
-	endif
-enddef 
+def ChecksumSaveToFile()
+    var checksum = ''
+    checksum = vchecksum.GetChecksum(vchecksum_exe, vchecksum_algorithm)
+    vchecksum.WriteStringToFile(checksum, vchecksum_filename)
+enddef
 
+command! ChecksumSaveToFile call ChecksumSaveToFile()
 command! Checksum call Checksum()
