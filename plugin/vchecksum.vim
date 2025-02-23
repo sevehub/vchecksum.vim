@@ -12,13 +12,18 @@ var vchecksum_filename = 'checksum.txt '
 
 if !executable('vchecksum.exe')
     if executable('v.exe')
-        var error = ''
-        error = system('v.exe ' .. srcdir .. '/vchecksum.v' )
-        if v:shell_error
-            echom error
+        if executable(srcdir .. '/' ..  vchecksum_exe)
+            vchecksum_exe = srcdir .. '/' .. vchecksum_exe    
         else
-            vchecksum_exe = srcdir .. '/vchecksum.exe'
-        endif 
+            var error = ''
+            error = system('v.exe ' .. srcdir .. '/vchecksum.v' )
+            if v:shell_error
+                echom error
+            else
+                vchecksum_exe = srcdir .. '/vchecksum.exe'
+            endif 
+        endif
+
     else
         echom 'Unable to compile vchecksum'
         finish
